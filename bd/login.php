@@ -15,14 +15,23 @@ error_log($datos['pass']);
 
 if($usuario === $datos['usuario'] and $password === $datos['pass']){
     $_SESSION["s_usuario"] = $usuario;
-    $data = "1";
+    $data = array(
+        'usuario' => $_SESSION["s_usuario"],
+        'success' => true
+    );
 
 }else{
     $_SESSION["s_usuario"] = 'falso';
-    $data= "0";
+    $data = array(
+        'usuario' => $_SESSION["s_usuario"],
+        'success' => false
+    );
 }
 
-print json_encode($data);
+
+header('Content-Type: application/json');
+echo json_encode($data);
+
 ?>
     
 
