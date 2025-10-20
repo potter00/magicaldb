@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    cargarDatos();
+
+
+
+
     tablaPersonas = $("#tablaJugadores").DataTable({
        "columnDefs":[{
         "targets": -1,
@@ -73,7 +78,51 @@ $(document).on("click", ".btnBorrar", function(){
         });
     }   
 });
-    
+
+
+
+
+
+async function cargarDatos() {
+    try {
+        // Llama a tu script PHP
+        const response = await fetch('/neoarcadia/magicaldb/api/get_data.php');
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        const tablaBody = document.getElementById('tablaJugadoresBody');
+        tablaBody.innerHTML = ''; // Limpia el contenido anterior
+
+        // `data` es un array de arrays, ej: [['fila1-col1', 'fila1-col2'], ['fila2-col1', 'fila2-col2']]
+        
+        // Opcional: Si tu primera fila son los encabezados, puedes omitirla
+        // const datosSinEncabezado = data.slice(1); 
+
+        data.forEach(fila => {
+            // `fila` es un array con los valores de las celdas, ej: ['Dato A', 'Dato B', 'Dato C']
+            const tr = document.createElement('tr');
+            
+            fila.forEach(celda => {
+                const td = document.createElement('td');
+                td.textContent = celda;
+                tr.appendChild(td);
+            });
+
+            tablaBody.appendChild(tr);
+        });
+
+    } catch (error) {
+        console.error('Error al cargar los datos:', error);
+        document.getElementById('tablaJugadoresBody').innerHTML = '<tr><td colspan="3">Error al cargar datos.</td></tr>';
+    }
+}
+
+
+
 $("#formPersonas").submit(function(e){
     e.preventDefault();    
     nombre = $.trim($("#nombre").val());

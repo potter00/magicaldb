@@ -1,4 +1,12 @@
-<?php require_once "vistas/parte_superior.php"?>
+<?php require_once "vistas/parte_superior.php";
+      
+
+        
+        
+
+?>
+
+
 
 <div class="container">
     
@@ -22,7 +30,7 @@
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tablaJugadoresBody">
                 
                 <?php /* foreach ($subcontratados as $subcontratado) {
                     $idSubContratado = $subcontratado['idSubContratado'];

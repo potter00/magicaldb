@@ -1,15 +1,30 @@
 <?php
+
+
+
 // Carga el autoloader de Composer
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use GuzzleHttp\Client as GuzzleClient;
 // Función para inicializar el cliente de la API
 function getClient() {
     $client = new Google_Client();
-    $client->setApplicationName('Mi App de Tablas');
+    $client->setApplicationName('Tabla Personajes');
     $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
 
     // Ruta al archivo JSON de credenciales que descargaste
-    $client->setAuthConfig(__DIR__ . '/../credentials/tu-archivo-json.json');
+    $client->setAuthConfig(__DIR__ . '/../credenciales.json');
+
+    /*
+    $guzzleClient = new GuzzleClient([
+        'verify' => false
+    ]);
+    */
+    $guzzleClient = new GuzzleClient([
+        'verify' => 'C:\xampp\php\extras\ssl\cacert.pem'
+    ]);
+    
+    $client->setHttpClient($guzzleClient);
 
     return $client;
 }
@@ -17,12 +32,15 @@ function getClient() {
 try {
     // ID de tu hoja de cálculo (está en la URL)
     // ej: https://docs.google.com/spreadsheets/d/ESTE_ES_EL_ID/edit
-    $spreadsheetId = 'AQUI_VA_EL_ID_DE_TU_SHEET';
+    // https://docs.google.com/spreadsheets/d/1WWoGQgI1jXjZWu_Wtn37YkN1jxZK3FI3uL91j372ii8/edit?usp=sharing
+    $spreadsheetId = '1WWoGQgI1jXjZWu_Wtn37YkN1jxZK3FI3uL91j372ii8';
 
-    // Rango de celdas que quieres leer
+    // Rango de celdas que quieres leer 
     // ej: 'Hoja 1!A1:C10' (Hoja 1, columnas A a C, filas 1 a 10)
-    $range = 'Hoja 1!A:C'; 
+    
+    // $range = 'Hoja 1!A:C'; 
 
+    $range = 'Personajes!A:H'; 
     $client = getClient();
     $service = new Google_Service_Sheets($client);
 
