@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    tablaPersonas = $("#tablaPersonas").DataTable({
+    tablaPersonas = $("#tablaJugadores").DataTable({
        "columnDefs":[{
         "targets": -1,
         "data":null,
